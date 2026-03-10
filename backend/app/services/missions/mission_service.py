@@ -91,7 +91,7 @@ async def decompose_mission(db: AsyncSession, mission: Mission) -> Mission:
         "content": (
             f"Grand Mission: {mission.title}\n\n"
             f"Description: {mission.description}\n\n"
-            f"Available team members:\n{'\\n'.join(agents_info)}\n\n"
+            f"Available team members:\n{chr(10).join(agents_info)}\n\n"
             "Decompose this mission into phases and tasks. "
             "Respond ONLY with valid JSON in this exact format:\n"
             '{"phases": [{"title": "Phase Name", "description": "...", "tasks": ['
