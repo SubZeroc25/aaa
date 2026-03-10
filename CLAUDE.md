@@ -1,96 +1,152 @@
 # CLAUDE.md
 
-This file provides guidance for AI assistants (Claude and others) working in this repository.
+This file provides guidance for AI assistants working in the Agent Nexus repository.
 
-## Repository Status
+## Project Overview
 
-This repository is in its initial state. Currently it contains only:
+**Agent Nexus** is a unified multi-agent creative command center where AI agents with distinct personalities collaborate in real-time on complex missions. It is a containerized full-stack application.
 
-- `.gitattributes` — configures LF line-ending normalization for all text files
-- `CLAUDE.md` — this file
+## Tech Stack
 
-There is no application code, dependencies, build system, or tests yet.
+- **Backend**: Python 3.12, FastAPI, SQLAlchemy (async), PostgreSQL, Redis
+- **Frontend**: Next.js 15, React 19, TypeScript, Zustand (state management)
+- **Infrastructure**: Docker Compose (postgres, redis, backend, frontend)
+- **Real-time**: WebSockets for consciousness stream (agent communication bus)
 
-## Git Configuration
-
-### Line Endings
-
-All text files use LF line endings (`* text=auto` in `.gitattributes`). When creating new files, ensure they follow Unix-style LF endings.
-
-### Branch Convention
-
-Active development branches follow the pattern:
+## Directory Structure
 
 ```
-claude/<description>-<session-id>
+├── backend/
+│   ├── app/
+│   │   ├── main.py                        # FastAPI app entry point
+│   │   ├── api/routes/                    # REST API endpoints
+│   │   │   ├── agents.py                  # CRUD + status for agents
+│   │   │   ├── missions.py                # Mission lifecycle + execution
+│   │   │   ├── messages.py                # Message history + stream
+│   │   │   ├── models.py                  # Provider availability
+│   │   │   └── costs.py                   # Cost tracking analytics
+│   │   ├── core/                          # Config, database, redis setup
+│   │   ├── models/                        # SQLAlchemy ORM models
+│   │   ├── schemas/                       # Pydantic request/response schemas
+│   │   ├── services/
+│   │   │   ├── agents/                    # Agent CRUD, defaults, memory
+│   │   │   ├── models_adapters/           # Model-agnostic API layer
+│   │   │   │   ├── base.py                # Abstract ModelAdapter + ModelResponse
+│   │   │   │   ├── registry.py            # Adapter registry + fallback logic
+│   │   │   │   ├── openai_adapter.py
+│   │   │   │   ├── anthropic_adapter.py
+│   │   │   │   ├── google_adapter.py
+│   │   │   │   ├── mistral_adapter.py
+│   │   │   │   └── ollama_adapter.py
+│   │   │   ├── orchestration/             # Agent state machine + event bus
+│   │   │   │   ├── engine.py              # run_agent_on_task, consultation, review_loop
+│   │   │   │   └── stream.py              # Consciousness stream (pub/sub)
+│   │   │   └── missions/                  # Mission decomposition + execution
+│   │   └── websocket/                     # WebSocket handler
+│   ├── Dockerfile
+│   └── requirements.txt
+├── frontend/
+│   ├── src/
+│   │   ├── app/                           # Next.js app router (layout + page)
+│   │   ├── components/
+│   │   │   ├── agents/                    # AgentPanel, AgentNode
+│   │   │   ├── workspace/                 # WorkspacePanel, ConsciousnessStream
+│   │   │   ├── mission/                   # MissionSidebar, MissionView, CreateMissionModal
+│   │   │   └── layout/                    # Header
+│   │   ├── hooks/useWebSocket.ts          # WebSocket hook for consciousness stream
+│   │   ├── lib/api.ts                     # REST API client
+│   │   ├── stores/nexusStore.ts           # Zustand global state
+│   │   ├── types/index.ts                 # TypeScript interfaces
+│   │   └── styles/globals.css             # Dark theme command center CSS
+│   ├── Dockerfile
+│   └── package.json
+├── docker-compose.yml
+├── .env.example
+└── .gitignore
 ```
 
-Example: `claude/add-claude-documentation-CLxWt`
-
-### Commit Messages
-
-Use clear, descriptive commit messages in the imperative mood:
-
-- "Add user authentication module"
-- "Fix null pointer in order processing"
-- "Update dependencies to latest versions"
-
-Avoid vague messages like "fix bug" or "update stuff".
-
-### Push Workflow
-
-Always use `-u` to set the upstream on first push:
+## Running the Application
 
 ```bash
-git push -u origin <branch-name>
+# Full stack
+cp .env.example .env   # Add your API keys
+docker-compose up --build
+
+# Backend only (dev)
+cd backend && pip install -r requirements.txt
+uvicorn app.main:app --reload
+
+# Frontend only (dev)
+cd frontend && npm install && npm run dev
 ```
 
-## Working in This Repository
+Services:
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:8000
+- API Docs: http://localhost:8000/docs
+- PostgreSQL: localhost:5432
+- Redis: localhost:6379
 
-Since no project structure exists yet, the first contributor should:
+## Key Architectural Patterns
 
-1. Decide on a language and framework
-2. Initialize the appropriate package/dependency manager (e.g., `npm init`, `cargo init`, `go mod init`)
-3. Add a `README.md` describing the project purpose
-4. Update this `CLAUDE.md` with project-specific conventions once the stack is chosen
+### Model Adapter Pattern
+All AI model providers implement `ModelAdapter` (in `services/models_adapters/base.py`). New providers are added by:
+1. Creating a new `*_adapter.py` implementing `ModelAdapter.chat()` and `is_available()`
+2. Registering it in `registry.py:init_adapters()`
 
-## Guidance for AI Assistants
+The `chat_with_fallback()` function handles automatic provider failover.
 
-### When Adding Code
+### Agent Orchestration
+The orchestration engine (`services/orchestration/engine.py`) manages agent state transitions:
+- `idle` → `thinking` → `writing` → `idle`
+- Collaboration protocols: `run_agent_on_task`, `run_consultation`, `run_review_loop`
 
-- Follow the conventions of whatever language/framework is chosen
-- Keep the directory structure logical and consistent with community standards for the chosen stack
-- Do not create files speculatively — only create what is needed
-- Prefer editing existing files over creating new ones where possible
-- Do not add comments for self-evident code
+Agent state is stored in Redis (ephemeral), while messages and memory are in PostgreSQL (persistent).
 
-### When Making Changes
+### Consciousness Stream
+All agent events are broadcast via an in-memory pub/sub (`services/orchestration/stream.py`) to WebSocket clients, and persisted to Redis (last 1000 events per mission).
 
-- Read files before editing them
-- Make targeted, minimal changes — avoid refactoring unrelated code
-- Do not add error handling, fallbacks, or validation for scenarios that cannot actually occur
-- Do not introduce premature abstractions
+### Mission Lifecycle
+1. User creates mission → status: `planning`
+2. PM agent decomposes into phases/tasks → status: `active`
+3. Tasks execute sequentially per phase → status: `completed`
 
-### Security
+### Frontend State
+Zustand store (`stores/nexusStore.ts`) manages global state. Components subscribe to slices. WebSocket events feed into `streamEvents`.
 
-- Never commit secrets, credentials, or API keys
-- Never add `.env` files containing real credentials to version control
-- Validate input at system boundaries (user input, external APIs) only
+## Conventions
 
-### Testing
+### Backend
+- All database operations use async SQLAlchemy sessions
+- Route handlers in `api/routes/`, business logic in `services/`
+- Pydantic schemas separate from ORM models
+- Use `UUID` primary keys throughout
+- Cost estimation in `orchestration/engine.py:_estimate_cost()`
 
-- Once a test framework is established, run tests before committing
-- Keep tests close to the code they test (co-location preferred over a separate top-level `tests/` directory, unless the chosen framework mandates otherwise)
+### Frontend
+- `"use client"` directive on all interactive components
+- CSS-in-JS avoided; global CSS with CSS custom properties (variables)
+- Components organized by domain: `agents/`, `workspace/`, `mission/`, `layout/`
+- API calls via `lib/api.ts` (typed REST client)
 
-## Updating This File
+### Git
+- Branch pattern: `claude/<description>-<session-id>`
+- Imperative commit messages
+- Push with `-u` flag: `git push -u origin <branch>`
+- Never commit `.env` or secrets
 
-Update this `CLAUDE.md` whenever:
+### Adding a New Agent Role
+1. Add definition in `backend/app/services/agents/defaults.py`
+2. Include system prompt, personality, tools, and permissions
+3. Seed via `POST /api/agents/seed`
 
-- A language or framework is chosen and initialized
-- A build system or task runner is added
-- Test conventions are established
-- Linting or formatting tools are configured
-- CI/CD pipelines are set up
-- New architectural patterns or conventions are adopted
+### Adding a New Model Provider
+1. Create `backend/app/services/models_adapters/<provider>_adapter.py`
+2. Implement `ModelAdapter` interface
+3. Register in `registry.py:init_adapters()`
+4. Add API key to `core/config.py` and `.env.example`
+5. Add cost rates to `orchestration/engine.py:_estimate_cost()`
 
-Keep this file accurate — outdated guidance is worse than no guidance.
+## Environment Variables
+
+See `.env.example` for all configurable values. At minimum, set one model provider API key (or configure Ollama for local-only usage).
