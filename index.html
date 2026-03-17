@@ -15,11 +15,9 @@
   <header class="site-header">
     <nav class="nav container">
       <a href="index.html" class="logo" aria-label="דף הבית">
-        <svg class="logo-mark" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect x="1" y="1" width="78" height="78" stroke="currentColor" stroke-width="1.5"/>
-          <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle"
-                font-family="Frank Ruhl Libre, serif" font-size="38" font-weight="700"
-                fill="currentColor">שש</text>
+        <svg class="logo-mark" viewBox="0 0 96 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M18,0 L34,0 L34,44 L78,98 L78,116 L60,116 L60,98 L18,44 Z" fill="currentColor"/>
+          <path d="M62,0 L78,0 L78,44 L34,98 L34,116 L18,116 L18,98 L62,44 Z" fill="currentColor"/>
         </svg>
         <span class="logo-text">סְטוּדְיוֹ שֵׁש שֵׁש</span>
       </a>
@@ -213,6 +211,104 @@
     </div>
   </section>
 
+  <!-- BLUEPRINT PANEL -->
+  <section class="blueprint section">
+    <div class="container blueprint-inner">
+      <div class="blueprint-text">
+        <p class="hero-eyebrow" style="color:var(--color-gold);">לוּחַ קוֹנְסֶפְּט אַדְרִיכָלִי</p>
+        <h2 class="section-title">הַסֵּמֶל — מְדוֹת וּמַשְׁמָעוּת</h2>
+        <div class="section-rule"></div>
+        <p style="color:var(--color-stone-lite); line-height:1.9; margin-top:var(--space-sm); max-width:44ch;">
+          הַמּוֹנוֹגְרָמָה שֶׁל סְטוּדְיוֹ שֵׁש שֵׁש נִגְזֶרֶת מִשְּׁנֵי אֵלֵמֶנְטִים
+          אַדְרִיכָלִיִּים הַמִּצְטַלְבִים — עַמּוּדִים וְאַלְכַּסוֹנִים —
+          הַמְּסַמְּלִים חֹזֶק, יַצִּיבוּת וְדִיּוּק.
+        </p>
+        <ul class="blueprint-specs" role="list">
+          <li><span class="spec-label">רֹחַב כּוֹלֵל</span><span class="spec-value">120 יח'</span></li>
+          <li><span class="spec-label">גּוֹבַהּ כּוֹלֵל</span><span class="spec-value">290 יח'</span></li>
+          <li><span class="spec-label">קַוִּים אַנְכִּיִּים</span><span class="spec-value">2 × 25 יח'</span></li>
+          <li><span class="spec-label">נְקֻדַּת הַמִּפְגָּשׁ</span><span class="spec-value">מֶרְכַּז הַסֵּמֶל</span></li>
+          <li><span class="spec-label">בָּסִיס</span><span class="spec-value">15 יח'</span></li>
+          <li><span class="spec-label">קְנֵה מִידָּה</span><span class="spec-value">1:1</span></li>
+        </ul>
+      </div>
+      <div class="blueprint-drawing" aria-hidden="true">
+        <div class="blueprint-grid">
+          <!-- Dimension lines -->
+          <svg class="bp-svg" viewBox="0 0 340 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Grid dots -->
+            <defs>
+              <pattern id="dotGrid" width="10" height="10" patternUnits="userSpaceOnUse">
+                <circle cx="5" cy="5" r="0.8" fill="currentColor" opacity="0.3"/>
+              </pattern>
+            </defs>
+            <rect width="340" height="380" fill="url(#dotGrid)" color="#B8916A"/>
+
+            <!-- Dimension line top: 120 -->
+            <line x1="100" y1="22" x2="240" y2="22" stroke="#B8916A" stroke-width="0.8"/>
+            <line x1="100" y1="16" x2="100" y2="28" stroke="#B8916A" stroke-width="0.8"/>
+            <line x1="240" y1="16" x2="240" y2="28" stroke="#B8916A" stroke-width="0.8"/>
+            <text x="170" y="18" text-anchor="middle" font-size="9" fill="#B8916A" font-family="monospace">120</text>
+
+            <!-- Dimension line: 25 (gap) -->
+            <line x1="154" y1="36" x2="186" y2="36" stroke="#B8916A" stroke-width="0.8"/>
+            <text x="170" y="33" text-anchor="middle" font-size="8" fill="#B8916A" font-family="monospace">25</text>
+
+            <!-- Main logo symbol -->
+            <!-- Left element -->
+            <path d="M100,46 L130,46 L130,120 L210,238 L210,268 L180,268 L180,238 L100,120 Z"
+                  fill="none" stroke="#B8916A" stroke-width="1.8"/>
+            <!-- Right element -->
+            <path d="M170,46 L200,46 L200,120 L120,238 L120,268 L90,268 L90,238 L170,120 Z"
+                  fill="none" stroke="#B8916A" stroke-width="1.8"/>
+            <!-- Axis lines (dashed) -->
+            <line x1="150" y1="30" x2="150" y2="290" stroke="#B8916A" stroke-width="0.6" stroke-dasharray="4 4"/>
+            <line x1="60" y1="157" x2="250" y2="157" stroke="#B8916A" stroke-width="0.6" stroke-dasharray="4 4"/>
+
+            <!-- Dimension right: 290 height -->
+            <line x1="260" y1="46" x2="260" y2="268" stroke="#B8916A" stroke-width="0.8"/>
+            <line x1="254" y1="46" x2="266" y2="46" stroke="#B8916A" stroke-width="0.8"/>
+            <line x1="254" y1="268" x2="266" y2="268" stroke="#B8916A" stroke-width="0.8"/>
+            <text x="275" y="162" text-anchor="start" font-size="9" fill="#B8916A" font-family="monospace">290</text>
+
+            <!-- Annotation: top section -->
+            <line x1="56" y1="46" x2="56" y2="120" stroke="#B8916A" stroke-width="0.6"/>
+            <line x1="50" y1="46" x2="62" y2="46" stroke="#B8916A" stroke-width="0.6"/>
+            <line x1="50" y1="120" x2="62" y2="120" stroke="#B8916A" stroke-width="0.6"/>
+            <text x="44" y="87" text-anchor="middle" font-size="8" fill="#B8916A" font-family="monospace" transform="rotate(-90 44 87)">50</text>
+
+            <!-- Label: נקודת מפגש -->
+            <line x1="66" y1="157" x2="82" y2="157" stroke="#B8916A" stroke-width="0.7"/>
+            <text x="34" y="155" text-anchor="middle" font-size="7.5" fill="#B8916A" font-family="Assistant, sans-serif">נקודת מפגש</text>
+
+            <!-- Label: ציר סימטריה -->
+            <text x="34" y="175" text-anchor="middle" font-size="7.5" fill="#B8916A" font-family="Assistant, sans-serif">ציר סימטריה</text>
+
+            <!-- Label: בסיס -->
+            <line x1="88" y1="253" x2="80" y2="242" stroke="#B8916A" stroke-width="0.7"/>
+            <text x="34" y="245" text-anchor="middle" font-size="7.5" fill="#B8916A" font-family="Assistant, sans-serif">בָּסִיס</text>
+
+            <!-- Bottom: 290 width -->
+            <line x1="90" y1="290" x2="210" y2="290" stroke="#B8916A" stroke-width="0.8"/>
+            <line x1="90" y1="284" x2="90" y2="296" stroke="#B8916A" stroke-width="0.8"/>
+            <line x1="210" y1="284" x2="210" y2="296" stroke="#B8916A" stroke-width="0.8"/>
+            <text x="150" y="304" text-anchor="middle" font-size="9" fill="#B8916A" font-family="monospace">290</text>
+
+            <!-- Title block border -->
+            <rect x="10" y="320" width="320" height="54" stroke="#B8916A" stroke-width="0.8" fill="none" opacity="0.4"/>
+            <line x1="10" y1="336" x2="330" y2="336" stroke="#B8916A" stroke-width="0.5" opacity="0.4"/>
+            <text x="20" y="332" font-size="8" fill="#B8916A" opacity="0.7" font-family="monospace">Project: סטודיו שש שש</text>
+            <text x="220" y="332" font-size="8" fill="#B8916A" opacity="0.7" font-family="monospace">Drawn: AI</text>
+            <text x="20" y="348" font-size="8" fill="#B8916A" opacity="0.7" font-family="monospace">Drawing: מדות סמל</text>
+            <text x="220" y="348" font-size="8" fill="#B8916A" opacity="0.7" font-family="monospace">Date: 2024</text>
+            <text x="20" y="364" font-size="8" fill="#B8916A" opacity="0.7" font-family="monospace">STUDIO 66 — LOGO CONCEPT PANEL 001</text>
+            <text x="270" y="364" font-size="8" fill="#B8916A" opacity="0.7" font-family="monospace">Scale: 1:1</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- TAGLINE BANNER -->
   <div class="tagline-banner">
     <div class="container">
@@ -272,11 +368,9 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <div class="footer-brand">
-        <svg class="logo-mark logo-mark--small" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect x="1" y="1" width="78" height="78" stroke="currentColor" stroke-width="1.5"/>
-          <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle"
-                font-family="Frank Ruhl Libre, serif" font-size="38" font-weight="700"
-                fill="currentColor">שש</text>
+        <svg class="logo-mark logo-mark--small" viewBox="0 0 96 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M18,0 L34,0 L34,44 L78,98 L78,116 L60,116 L60,98 L18,44 Z" fill="currentColor"/>
+          <path d="M62,0 L78,0 L78,44 L34,98 L34,116 L18,116 L18,98 L62,44 Z" fill="currentColor"/>
         </svg>
         <div>
           <p class="footer-name">סְטוּדְיוֹ שֵׁש שֵׁש</p>

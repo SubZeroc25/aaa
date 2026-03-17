@@ -5,17 +5,21 @@
 
 /* ----- TOKENS ----- */
 :root {
-  --color-stone:      #2C2A27;
-  --color-stone-mid:  #4A4641;
-  --color-stone-lite: #7A7570;
-  --color-cream:      #F5F0EA;
-  --color-warm:       #EDE6DA;
-  --color-gold:       #B8976A;
-  --color-gold-dark:  #8A6E48;
-  --color-marble-1:   #D9CFC4;
-  --color-marble-2:   #C5B8A8;
-  --color-white:      #FDFCFB;
-  --color-dark-bg:    #1E1C19;
+  /* Palette drawn directly from the brand imagery:
+     wood warm tones, concrete greys, bronze/gold, cream parchment */
+  --color-stone:      #24201B;   /* deep warm dark  */
+  --color-stone-mid:  #4A3F34;   /* mid warm stone  */
+  --color-stone-lite: #7A6E60;   /* light warm stone */
+  --color-cream:      #F0EBE1;   /* brand book cover cream */
+  --color-warm:       #E6DDD1;   /* parchment warm  */
+  --color-gold:       #B8916A;   /* bronze logo gold */
+  --color-gold-dark:  #8A6840;   /* deep bronze     */
+  --color-marble-1:   #D4C9BC;
+  --color-marble-2:   #BDB0A4;
+  --color-white:      #FDFCFA;
+  --color-dark-bg:    #1A1710;   /* deepest dark wood */
+  --color-kraft:      #C8A87A;   /* kraft paper tone */
+  --color-onyx:       #1C3232;   /* deep onyx green  */
 
   --ff-serif:   'Frank Ruhl Libre', serif;
   --ff-sans:    'Assistant', sans-serif;
@@ -166,12 +170,12 @@ textarea { resize: vertical; }
   font-family: var(--ff-serif);
 }
 .logo-mark {
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 45px;   /* 96:120 ratio */
   color: var(--color-stone);
   flex-shrink: 0;
 }
-.logo-mark--small { width: 36px; height: 36px; }
+.logo-mark--small { width: 28px; height: 35px; }
 .logo-text {
   font-size: var(--fs-md);
   font-weight: 700;
@@ -227,29 +231,28 @@ textarea { resize: vertical; }
 .hero-bg {
   position: absolute;
   inset: 0;
+  /* Warm dark wood / deep concrete — matches studio photography */
   background:
-    linear-gradient(160deg, #2C2A27 0%, #3D3830 40%, #1E1C19 100%);
+    linear-gradient(165deg, #221C14 0%, #2A2018 45%, #161210 100%);
 }
 
 .hero-texture {
   position: absolute;
   inset: 0;
+  /* Subtle wood-grain horizontal striation */
   background-image:
     repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 40px,
-      rgba(184,151,106,.04) 40px,
-      rgba(184,151,106,.04) 41px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 40px,
-      rgba(184,151,106,.04) 40px,
-      rgba(184,151,106,.04) 41px
+      2deg,
+      transparent 0px,
+      transparent 28px,
+      rgba(184,145,106,.05) 28px,
+      rgba(184,145,106,.05) 30px,
+      transparent 30px,
+      transparent 58px,
+      rgba(184,145,106,.03) 58px,
+      rgba(184,145,106,.03) 60px
     );
-  opacity: 0.6;
+  opacity: 0.8;
 }
 
 .hero-content {
@@ -537,6 +540,10 @@ textarea { resize: vertical; }
 }
 .footer-brand { display: flex; align-items: center; gap: var(--space-sm); }
 .footer-brand .logo-mark { color: var(--color-gold); }
+
+/* Logo color override: gold in dark contexts */
+.site-footer .logo-mark,
+.page-hero .logo-mark { color: var(--color-gold); }
 .footer-name {
   font-family: var(--ff-serif);
   font-size: var(--fs-lg);
@@ -558,6 +565,43 @@ textarea { resize: vertical; }
 }
 .footer-nav a:hover { color: var(--color-gold); }
 .footer-copy { font-size: var(--fs-xs); color: var(--color-stone-lite); }
+
+/* ----- BLUEPRINT PANEL ----- */
+.blueprint { background: var(--color-dark-bg); color: var(--color-cream); overflow: hidden; }
+.blueprint-inner {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: var(--space-2xl);
+  align-items: center;
+}
+.blueprint-specs {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: var(--space-lg);
+  border: 1px solid rgba(184,145,106,.25);
+}
+.blueprint-specs li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.55rem var(--space-sm);
+  border-bottom: 1px solid rgba(184,145,106,.15);
+  font-size: var(--fs-sm);
+}
+.blueprint-specs li:last-child { border-bottom: none; }
+.blueprint-specs .spec-label { font-family: var(--ff-serif); font-weight: 700; color: var(--color-cream); }
+.blueprint-specs .spec-value { font-family: monospace; color: var(--color-gold); letter-spacing: .05em; direction: ltr; }
+
+.blueprint-drawing { position: relative; }
+.blueprint-grid {
+  background: #12100D;
+  border: 1px solid rgba(184,145,106,.2);
+  border-radius: var(--radius);
+  padding: var(--space-sm);
+  overflow: hidden;
+}
+.bp-svg { width: 100%; height: auto; display: block; }
 
 /* =========================================================
    ABOUT PAGE
@@ -816,7 +860,8 @@ textarea { resize: vertical; }
   .location-inner,
   .contact-layout,
   .catalog-intro-layout,
-  .catalog-grid { grid-template-columns: 1fr 1fr; }
+  .catalog-grid,
+  .blueprint-inner { grid-template-columns: 1fr 1fr; }
 
   .process-steps { flex-direction: column; }
   .process-connector { width: 2px; height: 24px; align-self: center; }
@@ -824,6 +869,8 @@ textarea { resize: vertical; }
 
 @media (max-width: 640px) {
   :root { --space-2xl: 4rem; --space-3xl: 5rem; }
+
+  .blueprint-inner { grid-template-columns: 1fr; }
 
   .nav-toggle { display: flex; }
   .nav-links {
