@@ -24,7 +24,9 @@ jobs:
       - name: Deploy to Cloudflare Workers
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
-        run: wrangler deploy
+        run: |
+          wrangler deploy
+          wrangler secret put ANTHROPIC_API_KEY <<< "${{ secrets.ANTHROPIC_API_KEY }}"
 
       - name: Deployment status
         if: always()

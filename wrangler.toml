@@ -1,6 +1,11 @@
 name = "o2c-router"
 main = "src/worker.js"
 compatibility_date = "2024-01-01"
+account_id = "3472fe0b25f5c0f49a99d537cbe2cf35"
 
-# Add your Cloudflare account_id here or set it as a secret
-# account_id = ""
+[vars]
+ENVIRONMENT = "production"
+
+[[routes]]
+pattern = "subzero.o2c.one/*"
+zone_name = "o2c.one"
