@@ -1,4 +1,4 @@
-name: Deploy on Push
+name: Deploy to Cloudflare Workers
 
 on:
   push:
@@ -18,40 +18,19 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Install Wrangler
+        run: npm install -g wrangler
 
-      - name: Deploy to server
+      - name: Deploy to Cloudflare Workers
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SERVER_HOST: ${{ secrets.SERVER_HOST }}
-          SERVER_USER: ${{ secrets.SERVER_USER }}
-          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-        run: |
-          # Setup SSH key
-          mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H "$SERVER_HOST" >> ~/.ssh/known_hosts 2>/dev/null
-
-          # Deploy via rsync
-          rsync -avz --delete \
-            --exclude '.git' \
-            --exclude 'node_modules' \
-            ./ "$SERVER_USER@$SERVER_HOST:$DEPLOY_PATH/"
-
-          # Install dependencies and restart on server
-          ssh "$SERVER_USER@$SERVER_HOST" << 'REMOTE'
-            cd "$DEPLOY_PATH"
-            npm install --production
-            pm2 restart all || pm2 start server.js --name app
-          REMOTE
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+        run: wrangler deploy
 
       - name: Deployment status
         if: always()
         run: |
           if [ "${{ job.status }}" == "success" ]; then
-            echo "✅ Deployment successful!"
+            echo "Deploy to Cloudflare Workers successful!"
           else
-            echo "❌ Deployment failed!"
+            echo "Deploy to Cloudflare Workers failed!"
           fi
